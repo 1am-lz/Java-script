@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Like Button</title>
+  <style>
+    button { padding: 10px 20px; font-size: 16px; cursor: pointer; }
+    .updating { display: none;  }
+  </style>
+</head>
+<body>
+
+  <button id="likeButton">Unliked</button>
+  <div id="updatingMessage" class="updating">Updating...</div>
+
+  <script>
+    document.getElementById("likeButton").onclick = function() {
+      const button = this;
+      const updatingMessage = document.getElementById("updatingMessage");
+
+      updatingMessage.style.display = "block";  // Mostra "Updating..."
+
+      setTimeout(() => {
+        updatingMessage.style.display = "none";  // Nasconde "Updating..."
+        button.textContent = button.textContent === "Unliked" ? "Liked" : "Unliked";  // Alterna tra Unliked e Liked
+      }, 2000);
+    };
+  </script>
+
+</body>
+</html>
