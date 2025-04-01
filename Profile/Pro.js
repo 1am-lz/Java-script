@@ -1,59 +1,27 @@
-document.addEventListener("DOMContentLoaded", () => {
-    // Smooth scroll for navbar links
-    const navLinks = document.querySelectorAll('.nav-links a');
-    navLinks.forEach(link => {
-      link.addEventListener('click', (e) => {
-        e.preventDefault();
-        const targetId = link.getAttribute('href').substring(1);
-        const targetSection = document.getElementById(targetId);
-        if (targetSection) {
-          window.scrollTo({
-            top: targetSection.offsetTop - 60,
-            behavior: 'smooth'
-          });
+document.addEventListener("DOMContentLoaded", function() {
+    let index = 0;
+    const slides = document.querySelectorAll(".carousel-images img");
+    const totalSlides = slides.length;
+    const prevButton = document.querySelector(".prev");
+    const nextButton = document.querySelector(".next");
+
+    function moveSlide(n) {
+        index += n;
+        if (index < 0) {
+            index = totalSlides - 1;
+        } else if (index >= totalSlides) {
+            index = 0;
         }
-      });
-    });
-  
-    // Carousel functionality
-    const carouselImages = document.querySelector('.carousel-images');
-    const images = document.querySelectorAll('.carousel-images img');
-    const btnLeft = document.querySelector('.carousel-button-left');
-    const btnRight = document.querySelector('.carousel-button-right');
-    let currentIndex = 0;
-    const totalImages = images.length;
-  
-    function updateCarousel() {
-      carouselImages.style.transform = `translateX(-${currentIndex * 100}%)`;
+        document.querySelector(".carousel-images").style.transform = `translateX(-${index * 100}%)`;
     }
-  
-    btnLeft.addEventListener('click', () => {
-      currentIndex = (currentIndex === 0) ? totalImages - 1 : currentIndex - 1;
-      updateCarousel();
+
+    prevButton.addEventListener("click", function() {
+        moveSlide(-1);
     });
-  
-    btnRight.addEventListener('click', () => {
-      currentIndex = (currentIndex === totalImages - 1) ? 0 : currentIndex + 1;
-      updateCarousel();
+    
+    nextButton.addEventListener("click", function() {
+        moveSlide(1);
     });
-  
-    // Optional: Automatic carousel change every 5 seconds
-    setInterval(() => {
-      currentIndex = (currentIndex === totalImages - 1) ? 0 : currentIndex + 1;
-      updateCarousel();
-    }, 5000);
-  
-    // Contact form simulation
-    const form = document.getElementById('contact-form');
-    const formStatus = document.getElementById('form-status');
-  
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      formStatus.textContent = "Message sent successfully!";
-      formStatus.style.color = "green";
-      setTimeout(() => {
-        form.reset();
-        formStatus.textContent = "";
-      }, 2000);
-    });
-  });
+    
+    setInterval(() => moveSlide(1), 3000);
+});
